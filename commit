@@ -1,0 +1,258 @@
+
+alias ll='ls -lai'
+# alias GRUNTFILEPATH='find . -type f -name "Gruntfile.js" | grep -v "public" | grep -v "node_modules"'
+# alias status='git status'
+
+RESTORE='\033[0m'
+
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+YELLOW='\033[00;33m'
+BLUE='\033[00;34m'
+PURPLE='\033[00;35m'
+CYAN='\033[00;36m'
+LIGHTGRAY='\033[00;37m'
+
+LRED='\033[01;31m'
+LGREEN='\033[01;32m'
+LYELLOW='\033[01;33m'
+LBLUE='\033[01;34m'
+LPURPLE='\033[01;35m'
+LCYAN='\033[01;36m'
+WHITE='\033[01;37m'
+
+
+INFO="${GREEN}[INFO]${RESTORE} "
+WARN="${RED}[WARN]${RESTORE} "
+INVITE="${LBLUE}[?]${RESTORE} "
+
+
+function tab () {
+    local cmd=""
+    local cdto="$PWD"
+    local args="$@"
+
+    if [ -d "$1" ]; then
+        cdto=`cd "$1"; pwd`
+        args="${@:2}"
+    fi
+
+    if [ -n "$args" ]; then
+        cmd="; $args"
+    fi
+
+    osascript &>/dev/null <<EOF
+        tell application "iTerm"
+            tell current terminal
+                launch session "Default Session"
+                tell the last session
+                    write text "cd \"$cdto\"$cmd"
+                end tell
+            end tell
+        end tell
+EOF
+}
+
+ampedia () {
+  if [ "$1" == "watch" ]; then {
+    local GRUNTFILEPATH=`find . -type f -name "Gruntfile.js" | grep -v 'public' | grep -v 'node_modules'`
+    echo -e "${INFO}Ok, watch out then"
+    cd ${GRUNTFILEPATH:0:(${#GRUNTFILEPATH}-12)}
+    sudo ulimit -n 10480
+    grunt watch
+  } fi
+}
+
+
+
+www () {
+  clear
+  if [[ -z "$1" ]]
+    then
+      cd /Applications/MAMP/htdocs
+    else
+      if [ "$1" == "-g" ]; then
+          cd /Applications/MAMP/htdocs/${2}
+          status
+        else
+          cd /Applications/MAMP/htdocs/${1}
+      fi
+  fi
+}
+
+status () {
+
+  local RESTORE='\033[0m'
+
+  local RED='\033[00;31m'
+  local GREEN='\033[00;32m'
+  local YELLOW='\033[00;33m'
+  local BLUE='\033[00;34m'
+  local PURPLE='\033[00;35m'
+  local CYAN='\033[00;36m'
+  local LIGHTGRAY='\033[00;37m'
+
+  local LRED='\033[01;31m'
+  local LGREEN='\033[01;32m'
+  local LYELLOW='\033[01;33m'
+  local LBLUE='\033[01;34m'
+  local LPURPLE='\033[01;35m'
+  local LCYAN='\033[01;36m'
+  local WHITE='\033[01;37m'
+
+
+  local INFO="${GREEN}[INFO]${RESTORE} "
+
+  local currentBranch=`git rev-parse --abbrev-ref HEAD`
+
+  local listOfAddedFiles=`git diff --cached --name-only`
+  local listOfModifiedFilesFiles=`git ls-files -m`
+  local listOfUntrackedFilesFiles=`git ls-files --others --exclude-standard`
+
+  echo -e "${INFO}Your are on branch ${PURPLE}\"${currentBranch}\"${RESTORE}"
+
+  if [ "$listOfAddedFiles" != "" ]; then {
+    echo -e "${INFO}Changes to be committed:"
+    for i in $listOfAddedFiles; do
+      echo -e "${INFO}---  ${CYAN}${i} ${RESTORE}"
+    done
+    echo -e "${INFO}========================================";
+  } fi
+  if [ "$listOfModifiedFilesFiles" != "" ]; then {
+    echo -e "${INFO}Changes not staged for commit:"
+    for i in $listOfModifiedFilesFiles; do
+      echo -e "${INFO}---  ${YELLOW}${i} ${RESTORE}"
+    done
+    echo -e "${INFO}========================================";
+  } fi
+  if [ "$listOfUntrackedFilesFiles" != "" ]; then {
+    echo -e "${INFO}Untracked files:"
+    for i in $listOfUntrackedFilesFiles; do
+      echo -e "${INFO}---  ${RED}${i} ${RESTORE}"
+    done
+    echo -e "${INFO}========================================";
+  } fi
+
+}
+
+
+commit-effective () {
+
+  local currentBranch=`git rev-parse --abbrev-ref HEAD`
+  local listOfAddedFiles=`git diff --cached --name-only`
+
+  status
+  echo -e "${INVITE}Do you want to commit changes above on branch ${PURPLE}\"${currentBranch}\"${RESTORE} (yes/no?): "
+  read
+  case $REPLY in
+         [yY]|[yY][eE][sS]) {
+            clear
+            if [ "$listOfAddedFiles" != "" ]; then {
+              echo -e "${INFO}Alright, let's do this !"
+
+              git status >> ~/commit.log 2>&1
+              status
+
+              echo -e "${INFO}There you go"; echo -e "${INVITE}Please write down the commit message"; echo -e "${INVITE}And please no funny business - commit is not something to play with"
+              read
+
+              git commit -m "${currentBranch} * $REPLY" >> ~/commit.log 2>&1
+
+              echo -e "${INFO}Hey captain, job's done !"; echo -e "${INFO}Your commit has been sent by the the followinf name"; echo -e "${INFO}${LBLUE}***${RESTORE} ${currentBranch} $REPLY"
+              echo -e "${INFO}Fancy isn't it ?"; echo -e "${INVITE}Wanna see logs ? (yes)(ENTER to skip)"
+              read
+
+              case $REPLY in
+                [yY]|[yY][eE][sS]) {
+                vi ~/commit.log
+              }
+              esac
+            } else {
+              echo -e "${WARN}You have nothing to commit, look :"
+              status
+            } fi
+          };;
+             [nN]|[nN][oO]) {
+            clear
+            echo -e "${WARN}${LRED}Nothing commited for now${RESTORE}, your move captain"; echo -e "${WARN}Have a look to your files (${PURPLE}\"${currentBranch}\"${RESTORE}) :"
+
+            git status >> ~/commit.log 2>&1
+            status
+          };;
+                         *) {
+            echo -e "${WARN}${LRED}You serious man ? type \"yes\" or \"no\" ... no big deal !${RESTORE}"
+          };;
+  esac
+
+}
+
+
+commit () {
+  clear
+
+  date >> ~/commit.log
+
+
+  if [ "$1" != "" ]; then {
+    echo "" >> ~/commit.log
+
+    if [ "$1" == "--t" ] || [ "$1" == "--task" ]; then {
+
+      if [ "$2" != "" ]; then {
+
+        # Test if branch exist
+        local exists=`git show-ref refs/heads/${2}`
+
+        if [ -n "$exists" ]; then {
+
+          local listOfAddedFiles=`git diff --cached --name-only`
+          local listOfModifiedFilesFiles=`git ls-files -m`
+          local listOfUntrackedFilesFiles=`git ls-files --others --exclude-standard`
+
+          echo -e "${INFO}The branch ${PURPLE}\"${2}\"${RESTORE} already exists!"; echo -e "${INFO}Switching to branch ${PURPLE}\"${2}\"${RESTORE}"; echo ""
+
+          git checkout ${2} >> ~/commit.log 2>&1
+
+          git status >> ~/commit.log 2>&1
+          status
+          commit-effective
+
+        } else {
+          local currentBranch=`git rev-parse --abbrev-ref HEAD`
+
+          echo -e "${WARN}The branch \"${2}\" does not exist.${RESTORE}"
+          echo -e "${INVITE}Do you want to create it ?(yes/no)"
+          read
+
+          case $REPLY in
+               [yY]|[yY][eE][sS]) {
+                  echo -e "${INFO}The branch ${PURPLE}\"${2}\"${RESTORE} has been created"
+                  git checkout -b ${2} >> ~/commit.log 2>&1
+                  commit-effective
+                };;
+                   [nN]|[nN][oO]) {
+                  echo -e "${INFO}The branch ${PURPLE}\"${2}\"${RESTORE} has ${LRED}not${RESTORE} been created"
+                };;
+                               *) {
+                  echo -e "${WARN}${LRED}You serious man ? type \"yes\" or \"no\" ... no big deal !${RESTORE}"
+                };;
+          esac
+
+        } fi
+
+      } else {
+
+        echo ""
+
+      } fi
+
+    } fi
+    if [ "$1" == "--log" ]; then {
+      vi ~/commit.log
+    } fi
+  } else {
+    commit-effective
+  } fi
+
+  echo "" >> ~/commit.log
+}
