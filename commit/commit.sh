@@ -59,7 +59,7 @@ commit () {
   if [ "$1" != "" ]; then {
     echo "" >> ~/commit.log
 
-    if [ "$1" == "--t" ] || [ "$1" == "--task" ]; then {
+    if [ "$1" == "--b" ] || [ "$1" == "--branch" ]; then {
 
       if [ "$2" != "" ]; then {
 
