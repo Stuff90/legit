@@ -8,8 +8,7 @@ It is under development right now but some feature are already available.
 More details about them will coming soon.
 
 To use LeGit, clone the repository in your home directory then add the following statements to your `.bash_profile`.
-
-``` 
+``` bash
 if [ -f ~/legit/main.sh ]; then
   . ~/legit/main.sh
 fi
@@ -47,7 +46,7 @@ The `www` statement is an alias of `cd /Application/MAMP/htdocs`
 $	www
 ```
 It handle one argument which will be the name of the directory you wish to go into `cd /Application/MAMP/htdocs`.
-The followinf statement will count as  `cd /Application/MAMP/htdocs/dummy`
+The following statement will count as  `cd /Application/MAMP/htdocs/dummy`
 
 ``` 
 $	www dummy
