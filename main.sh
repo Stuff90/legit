@@ -5,6 +5,7 @@
 . ~/legit/ext/git-completion.bash
 
 . ~/legit/tab/tab.sh
+. ~/legit/commit/commit.sh
 . ~/legit/status/status.sh
 . ~/legit/www/www.sh
 
