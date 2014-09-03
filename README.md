@@ -37,6 +37,10 @@ The `status` statement is another way to call `git status`. It is a more colorfu
 ```
 $	status
 ```
+You can also display a list of commits not yet pushed to remote server by using `-c` parameter
+```
+$	status -c
+```
 
 ### Www
 
