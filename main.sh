@@ -4,9 +4,9 @@
 . ~/legit/ext/Matthews-Git-Bash-Prompt.sh
 . ~/legit/ext/git-completion.bash
 
-. ~/legit/tab/tab.sh
-. ~/legit/commit/commit.sh
-. ~/legit/status/status.sh
-. ~/legit/www/www.sh
+. ~/legit/modules/tab/tab.sh
+. ~/legit/modules/commit/commit.sh
+. ~/legit/modules/status/status.sh
+. ~/legit/modules/www/www.sh
 
 alias ll='ls -lai'
