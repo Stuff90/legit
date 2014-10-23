@@ -24,7 +24,7 @@ Usage
 ### Commit
 
 ```
-$	commit 
+$	commit
 $	commit --b branchName
 $	commit --branch branchName
 ```
@@ -46,20 +46,44 @@ $	status -c
 
 The `www` statement is an alias of `cd /Application/MAMP/htdocs`
 
-``` 
+```
 $	www
 ```
 It handle one argument which will be the name of the directory you wish to go into `cd /Application/MAMP/htdocs`.
 The following statement will count as  `cd /Application/MAMP/htdocs/dummy`
 
-``` 
+```
 $	www dummy
 ```
 
-### Tab
+### Pane
 
-The `tab` statement will simply open a new tab in your iTerm and keep the current pwd.
+The `pane` is a bunch of command usable with iTerm
+```
+$ 	pane
+```
 
-``` 
-$	tab
+Split the pane vertically
+```
+$ 	pane -sv
+```
+
+Split the pane horizontally
+```
+$ 	pane -sh
+```
+
+Move your caret to next pane
+```
+$ 	pane -n
+```
+
+Move caret to previous pane
+```
+$ 	pane -p
+```
+
+Open a new tab
+```
+$ 	pane -t
 ```
