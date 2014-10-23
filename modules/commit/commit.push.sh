@@ -12,7 +12,25 @@ __legit_commit_push () {
     read -e doPush
     case $doPush in
         [yY]|[yY][eE][sS]) {
-            echo -e "${INFO}Yes";
+            local pushStatementOutput=$(git push origin ${currentBranch} 2>&1)
+
+            if grep -q "Everything up-to-date" <<< "$pushStatementOutput" ; then
+                echo -e "${INFO}You got nothing to push captain !";
+            else
+                if grep -q "fetch first" <<< "$pushStatementOutput" ; then
+                    echo -e "${WARN}It seems your local repo is not upto date";
+                fi
+
+                if grep -q "Writing objects: 100%" <<< "$pushStatementOutput" ; then
+                    echo -e "${INFO}Everything went right !";
+                    echo -e "${INFO}Your code is now synced with remote server.";
+                else
+                    echo -e "${WARN}Something went wrong !";
+                    echo -e "${WARN}You know what captain ? I\'m not able to tell you what ...";
+                    echo -e "${WARN}I got you the log :";
+                    echo $pushStatementOutput
+                fi
+            fi
         };;
         [nN]|[nN][oO]) {
             echo -e "${INFO}Alright captain ! You're free to do that later by yourself";
