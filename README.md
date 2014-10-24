@@ -30,6 +30,20 @@ $	commit --branch branchName
 ```
 
 
+### Aliases
+
+Some simpel aliases has been added to the funcitons :
+
+The alias `ll` stand for `ls -lai`
+```
+$	ll
+```
+The alias `graph` stand for `git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all`.
+It display the graph of branches in the git repo. I found this command [here](http://stackoverflow.com/questions/1057564/pretty-git-branch-graphs), tanks Slipp D. Thompson.
+```
+$	graph
+```
+
 ### Status
 
 The `status` statement is another way to call `git status`. It is a more colorful way to display modification on file in git repository.
