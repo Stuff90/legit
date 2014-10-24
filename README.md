@@ -21,14 +21,6 @@ It has been created to work on MacOS operating system and iTerm terminal.
 Usage
 ----
 
-### Commit
-
-```
-$	commit
-$	commit --b branchName
-$	commit --branch branchName
-```
-
 
 ### Aliases
 
@@ -42,6 +34,14 @@ The alias `graph` stand for `git log --graph --abbrev-commit --decorate --format
 It display the graph of branches in the git repo. I found this command [here](http://stackoverflow.com/questions/1057564/pretty-git-branch-graphs), tanks Slipp D. Thompson.
 ```
 $	graph
+```
+
+### Commit
+
+```
+$	commit
+$	commit --b branchName
+$	commit --branch branchName
 ```
 
 ### Status
