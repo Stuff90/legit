@@ -13,6 +13,7 @@ __legit_commit_push () {
     case $doPush in
         [yY]|[yY][eE][sS]) {
             # local pushStatementOutput=$(git push origin ${currentBranch} 2>&1)
+            clear
             git push
 
             # if grep -q "Everything up-to-date" <<< "$pushStatementOutput" ; then
