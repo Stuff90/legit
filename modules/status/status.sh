@@ -14,6 +14,8 @@ array_contains () {
 
 
 status () {
+  clear
+
   local currentBranch=`git rev-parse --abbrev-ref HEAD`
 
   local listOfAddedFiles=`git diff --cached --name-only`
