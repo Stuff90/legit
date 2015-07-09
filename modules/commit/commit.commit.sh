@@ -19,7 +19,7 @@ __legit_commit_commit () {
                 echo -e "${INFO}There you go"; echo -e "${INVITE}Please write down the commit message"; echo -e "${INVITE}And please no funny business - commit is not something to play with"
                 read
 
-                git commit -m "${currentBranch}  >  $REPLY" >> ~/commit.log 2>&1
+                git commit -m "${currentBranch}  >  $REPLY"
 
                 echo -e "${INFO}Hey captain, job's done !"; echo -e "${INFO}Your commit has been sent by the the followinf name"; echo -e "${INFO}${LBLUE}***${RESTORE} ${currentBranch} $REPLY"
                 echo -e "${INFO}Fancy isn't it ?";

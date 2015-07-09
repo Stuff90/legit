@@ -3,8 +3,6 @@ __legit_commit_push () {
     local currentBranch=`git rev-parse --abbrev-ref HEAD`
     local pendingCommits=`git log --branches --not --remotes --decorate --oneline`
 
-    clear
-
     echo -e "${INFO}Now, we can try to push those file !";
     echo -e "${INFO}If your remote server is properly set, this will be easy peasy captain !";
 
