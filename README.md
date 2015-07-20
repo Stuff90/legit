@@ -24,7 +24,7 @@ Usage
 
 ### Aliases
 
-Some simpel aliases has been added to the funcitons :
+Some simpel aliases has been added to the functions :
 
 The alias `ll` stand for `ls -lai`
 ```
